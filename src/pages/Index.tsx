@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import CosmicBackground from '@/components/cosmic/CosmicBackground';
 import AppHeader from '@/components/layout/AppHeader';
@@ -11,23 +10,18 @@ import HealingScripts from '@/components/modules/HealingScripts';
 import { ModuleState, ModuleType, initializeModuleState, toggleActiveModule } from '@/utils/moduleState';
 import { createAudioContext, createBinauralBeat, loadAndPlaySample } from '@/utils/audio';
 
-// Mock URL for sample data
 const SAMPLE_BASE_URL = '/samples/';
 
 const Index = () => {
-  // Global audio state
   const [isPlaying, setIsPlaying] = useState(false);
   const [volume, setVolume] = useState(80);
   const [modules, setModules] = useState<ModuleState[]>(initializeModuleState());
   
-  // Audio hooks
   const audioContextRef = useRef<any>(null);
   const binauralRef = useRef<any>(null);
   const samplePlayersRef = useRef<{[key: string]: any}>({});
   
-  // Initialize audio context
   useEffect(() => {
-    // Create AudioContext only on first user interaction
     const initAudio = () => {
       if (!audioContextRef.current) {
         try {
@@ -39,10 +33,8 @@ const Index = () => {
       }
     };
     
-    // Listen for user interaction
     const handleInteraction = () => {
       initAudio();
-      // Remove listeners after first interaction
       document.removeEventListener('click', handleInteraction);
       document.removeEventListener('touchstart', handleInteraction);
     };
@@ -56,7 +48,6 @@ const Index = () => {
     };
   }, []);
   
-  // Handle global play/pause
   const handlePlayPause = () => {
     if (!audioContextRef.current) return;
     
@@ -64,18 +55,15 @@ const Index = () => {
     setIsPlaying(newPlayingState);
     
     if (newPlayingState) {
-      // Resume audio context if suspended
       if (audioContextRef.current.state === 'suspended') {
         audioContextRef.current.resume();
       }
       
-      // Start active module's audio
       const activeModule = modules.find(m => m.isActive);
       if (activeModule) {
         startModuleAudio(activeModule.id);
       }
     } else {
-      // Pause all audio
       if (binauralRef.current) {
         binauralRef.current.stop();
       }
@@ -88,17 +76,14 @@ const Index = () => {
     }
   };
   
-  // Handle volume change
   const handleVolumeChange = (value: number) => {
     setVolume(value);
     const normalizedVolume = value / 100;
     
-    // Update binaural volume
     if (binauralRef.current) {
       binauralRef.current.setVolume(normalizedVolume);
     }
     
-    // Update sample players volume
     Object.values(samplePlayersRef.current).forEach((player: any) => {
       if (player && player.setVolume) {
         player.setVolume(normalizedVolume);
@@ -106,11 +91,9 @@ const Index = () => {
     });
   };
   
-  // Switch active module
   const handleModuleChange = (moduleId: ModuleType) => {
     setModules(prev => toggleActiveModule(prev, moduleId));
     
-    // Stop all current audio
     if (binauralRef.current) {
       binauralRef.current.stop();
     }
@@ -121,24 +104,21 @@ const Index = () => {
       }
     });
     
-    // If currently playing, start the new module's audio
     if (isPlaying) {
       startModuleAudio(moduleId);
     }
   };
   
-  // Start audio for a specific module
   const startModuleAudio = (moduleId: ModuleType) => {
     if (!audioContextRef.current) return;
     
     switch (moduleId) {
       case 'binaural':
-        // Initialize binaural with default frequencies
         binauralRef.current = createBinauralBeat(
           audioContextRef.current,
-          200,  // base frequency
-          10,   // beat frequency
-          volume / 100  // normalized volume
+          200,
+          10,
+          volume / 100
         );
         binauralRef.current.start();
         break;
@@ -147,42 +127,28 @@ const Index = () => {
       case 'meditation':
       case 'lofi':
       case 'healing':
-        // These would load and play appropriate samples
-        // Implementation would depend on available samples
         console.log(`Starting ${moduleId} audio`);
         break;
     }
   };
   
-  // Handle binaural frequency change
   const handleBinauralFrequencyChange = (baseFreq: number, beatFreq: number) => {
     if (binauralRef.current) {
       binauralRef.current.updateFrequency(baseFreq, beatFreq);
     }
   };
   
-  // Handle lofi sample toggle
   const handleSampleToggle = async (sampleId: string, active: boolean) => {
     if (!audioContextRef.current || !isPlaying) return;
     
     if (active) {
-      // Load and play the sample
       try {
-        // This would connect to actual sample files in a real implementation
         const sampleUrl = `${SAMPLE_BASE_URL}${sampleId}.mp3`;
-        
-        // Mock the loading and playing
         console.log(`Playing sample: ${sampleId}`);
-        
-        // In a real implementation, we would:
-        // const player = await loadAndPlaySample(audioContextRef.current, sampleUrl, true);
-        // player.play();
-        // samplePlayersRef.current[sampleId] = player;
       } catch (error) {
         console.error(`Failed to load sample ${sampleId}:`, error);
       }
     } else {
-      // Stop the sample
       if (samplePlayersRef.current[sampleId]) {
         samplePlayersRef.current[sampleId].stop();
         delete samplePlayersRef.current[sampleId];
@@ -190,37 +156,28 @@ const Index = () => {
     }
   };
   
-  // Handle relaxation timer
   const handleRelaxationStart = (duration: number) => {
     console.log(`Starting relaxation timer for ${duration} minutes`);
-    // Here we would start the ambient sounds
   };
   
   const handleRelaxationEnd = () => {
     console.log('Relaxation timer ended');
-    // Here we would fade out the ambient sounds
   };
   
-  // Handle meditation session
   const handleMeditationPlay = (sessionId: string) => {
     console.log(`Playing meditation session: ${sessionId}`);
-    // Here we would load and play the guided meditation
   };
   
   const handleMeditationPause = () => {
     console.log('Paused meditation session');
-    // Here we would pause the guided meditation
   };
 
-  // Find the active module
   const activeModule = modules.find(m => m.isActive);
   
   return (
-    <div className="cosmic-container">
-      {/* Cosmic Background */}
+    <div className="cosmic-container bg-neuro-mix-gradient">
       <CosmicBackground />
       
-      {/* Main Content */}
       <div className="relative z-10 min-h-screen flex flex-col">
         <AppHeader 
           isPlaying={isPlaying} 
@@ -230,7 +187,6 @@ const Index = () => {
         />
         
         <main className="flex-grow p-6 md:p-8 max-w-6xl mx-auto w-full">
-          {/* Module Selection */}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mb-8">
             {modules.map(module => (
               <button
@@ -238,16 +194,15 @@ const Index = () => {
                 onClick={() => handleModuleChange(module.id)}
                 className={`p-4 rounded-xl transition-all duration-300 ${
                   module.isActive
-                    ? 'bg-cosmic-purple shadow-neon-glow'
-                    : 'bg-cosmic-charcoal hover:bg-cosmic-purple/20'
+                    ? 'bg-neuro-blue shadow-neon-glow'
+                    : 'bg-neuro-green/20 hover:bg-neuro-green/40'
                 }`}
               >
-                <h3 className="text-sm font-medium">{module.name}</h3>
+                <h3 className="text-sm font-medium text-white">{module.name}</h3>
               </button>
             ))}
           </div>
           
-          {/* Active Module Display */}
           <div className="mb-8">
             {activeModule && (
               <div>
@@ -260,7 +215,6 @@ const Index = () => {
                   </div>
                 </div>
                 
-                {/* Module Content */}
                 <div className="grid md:grid-cols-2 gap-6">
                   {activeModule.id === 'relaxation' && (
                     <RelaxationTimer 
@@ -298,7 +252,6 @@ const Index = () => {
                     />
                   )}
                   
-                  {/* Visualization Panel - shown for all modules */}
                   <div className="cosmic-panel flex items-center justify-center">
                     <div className="text-center">
                       <h3 className="text-xl font-heading mb-4 text-shadow-neon">Visualization</h3>
@@ -309,7 +262,6 @@ const Index = () => {
                           </div>
                         ) : (
                           <div className="w-full h-full flex items-center justify-center">
-                            {/* Placeholder for visualization - would be replaced with actual visuals */}
                             <div className="relative w-40 h-40">
                               <div className="absolute inset-0 bg-cosmic-purple/20 rounded-full animate-pulse"></div>
                               <div className="absolute inset-4 bg-cosmic-purple/30 rounded-full animate-[pulse_2s_ease-in-out_infinite_0.5s]"></div>
@@ -326,7 +278,6 @@ const Index = () => {
             )}
           </div>
           
-          {/* Footer Content - Wall of Love */}
           <div className="mt-12">
             <h2 className="text-2xl font-heading mb-6 text-center text-shadow-neon">Wall of Love</h2>
             

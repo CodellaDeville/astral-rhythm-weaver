@@ -1,4 +1,5 @@
-# Welcome to your Lovable project
+
+# Neuro Mix Music Box
 
 ## Project info
 

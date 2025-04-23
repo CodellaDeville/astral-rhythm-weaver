@@ -82,6 +82,11 @@ export default {
 				neon: {
 					purple: '#6a60d6',
 					blue: '#2e1a78',
+				},
+				neuro: {
+					green: '#2ecc71',
+					blue: '#3498db',
+					gold: '#f1c40f'
 				}
 			},
 			fontFamily: {
@@ -139,6 +144,7 @@ export default {
 				'cosmic-gradient': 'radial-gradient(ellipse at center, rgba(46, 26, 120, 0.5) 0%, rgba(26, 31, 44, 1) 100%)',
 				'neon-gradient': 'linear-gradient(225deg, #6a60d6 0%, #2e1a78 100%)',
 				'purple-gradient': 'linear-gradient(90deg, rgba(155, 135, 245, 0.2) 0%, rgba(214, 188, 250, 0.2) 100%)',
+				'neuro-mix-gradient': 'linear-gradient(135deg, #2ecc71, #3498db, #f1c40f)',
 			},
 			boxShadow: {
 				'neon-glow': '0 0 5px 0 rgba(155, 135, 245, 0.5), 0 0 15px 0 rgba(155, 135, 245, 0.3)',
