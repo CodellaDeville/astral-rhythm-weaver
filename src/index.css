@@ -2,92 +2,53 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 240 10% 8%;
+    --foreground: 0 0% 98%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 240 10% 12%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 240 10% 8%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 260 75% 60%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 240 10% 15%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 240 10% 20%;
+    --muted-foreground: 240 5% 84%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 260 75% 60%;
+    --accent-foreground: 0 0% 98%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
+    --border: 240 10% 20%;
+    --input: 240 10% 20%;
+    --ring: 260 75% 60%;
+    
+    --radius: 0.75rem;
+
+    --sidebar-background: 240 10% 6%;
+    --sidebar-foreground: 0 0% 98%;
+    --sidebar-primary: 260 75% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-accent: 240 10% 15%;
+    --sidebar-accent-foreground: 0 0% 98%;
+    --sidebar-border: 240 10% 20%;
+    --sidebar-ring: 260 75% 60%;
   }
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 @layer base {
@@ -96,6 +57,111 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-cosmic-dark text-foreground font-sans antialiased min-h-screen overflow-x-hidden;
+  }
+  
+  /* Heading styles */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading font-semibold tracking-wide;
+  }
+  
+  h1 {
+    @apply text-4xl md:text-5xl xl:text-6xl text-shadow-neon-strong mb-6;
+  }
+  
+  h2 {
+    @apply text-3xl md:text-4xl text-shadow-neon mb-4;
+  }
+  
+  h3 {
+    @apply text-2xl md:text-3xl mb-3;
+  }
+  
+  /* Link styling */
+  a {
+    @apply text-cosmic-purple hover:text-cosmic-purple-light transition-colors duration-300;
+  }
+  
+  /* Focus outlines */
+  :focus-visible {
+    @apply outline-none ring-2 ring-cosmic-purple ring-offset-2 ring-offset-cosmic-dark;
+  }
+}
+
+/* Custom Components */
+@layer components {
+  .cosmic-container {
+    @apply w-full h-full bg-cosmic-dark relative overflow-hidden;
+  }
+  
+  .cosmic-background {
+    @apply fixed inset-0 bg-cosmic-dark overflow-hidden z-0;
+  }
+  
+  .star {
+    @apply absolute rounded-full bg-white z-0;
+  }
+  
+  .star-sm {
+    @apply w-[1px] h-[1px] animate-twinkle-fast;
+  }
+  
+  .star-md {
+    @apply w-[2px] h-[2px] animate-twinkle;
+  }
+  
+  .star-lg {
+    @apply w-[3px] h-[3px] animate-twinkle-slow;
+  }
+  
+  .nebula {
+    @apply absolute rounded-full opacity-20 blur-3xl z-0;
+  }
+  
+  .nebula-purple {
+    @apply bg-cosmic-purple;
+  }
+  
+  .nebula-blue {
+    @apply bg-cosmic-blue;
+  }
+  
+  .neon-button {
+    @apply px-6 py-3 rounded-full bg-neon-gradient text-white font-medium relative 
+           shadow-neon-glow transition-all duration-300 ease-in-out hover:shadow-neon-glow-strong 
+           hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cosmic-purple focus:ring-offset-2 
+           focus:ring-offset-cosmic-dark active:scale-95;
+  }
+  
+  .neon-icon-button {
+    @apply p-3 rounded-full bg-neon-gradient text-white
+           shadow-neon-glow transition-all duration-300 ease-in-out hover:shadow-neon-glow-strong 
+           hover:scale-105 focus:outline-none focus:ring-2 focus:ring-cosmic-purple focus:ring-offset-2 
+           focus:ring-offset-cosmic-dark active:scale-95;
+  }
+  
+  .cosmic-card {
+    @apply glass-panel p-6 animate-fade-in-up;
+  }
+
+  .cosmic-panel {
+    @apply glass-panel p-6 shadow-neon-glow border border-cosmic-purple/20;
+  }
+  
+  .cosmic-slider {
+    @apply appearance-none w-full h-2 rounded-full bg-cosmic-charcoal outline-none cursor-pointer;
+  }
+  
+  .cosmic-slider::-webkit-slider-thumb {
+    @apply appearance-none w-4 h-4 rounded-full bg-cosmic-purple shadow-neon-glow cursor-pointer;
+  }
+  
+  .cosmic-slider::-moz-range-thumb {
+    @apply w-4 h-4 rounded-full bg-cosmic-purple border-none shadow-neon-glow cursor-pointer;
+  }
+  
+  .cosmic-input {
+    @apply bg-cosmic-dark border border-cosmic-purple/30 rounded-lg px-4 py-2 text-white
+           focus:border-cosmic-purple/70 focus:outline-none focus:ring-1 focus:ring-cosmic-purple/50;
   }
 }
