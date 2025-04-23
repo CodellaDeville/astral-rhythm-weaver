@@ -175,7 +175,7 @@ const Index = () => {
   const activeModule = modules.find(m => m.isActive);
   
   return (
-    <div className="cosmic-container bg-neuro-mix-gradient">
+    <div className="cosmic-container bg-gradient-to-br from-neuro-green/20 via-neuro-blue/20 to-neuro-gold/20">
       <CosmicBackground />
       
       <div className="relative z-10 min-h-screen flex flex-col">
@@ -194,11 +194,17 @@ const Index = () => {
                 onClick={() => handleModuleChange(module.id)}
                 className={`p-4 rounded-xl transition-all duration-300 ${
                   module.isActive
-                    ? 'bg-neuro-blue shadow-neon-glow'
-                    : 'bg-neuro-green/20 hover:bg-neuro-green/40'
+                    ? 'bg-neuro-gold shadow-gold-glow text-cosmic-dark'
+                    : 'bg-neuro-green/20 hover:bg-neuro-green/40 text-white'
                 }`}
               >
-                <h3 className="text-sm font-medium text-white">{module.name}</h3>
+                <h3 className={`text-sm font-medium ${
+                  module.isActive 
+                    ? 'text-shadow-gold-neon' 
+                    : ''
+                }`}>
+                  {module.name}
+                </h3>
               </button>
             ))}
           </div>

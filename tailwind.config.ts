@@ -86,7 +86,11 @@ export default {
 				neuro: {
 					green: '#2ecc71',
 					blue: '#3498db',
-					gold: '#f1c40f'
+					gold: {
+						DEFAULT: '#f1c40f',
+						light: '#f4d03f',
+						dark: '#d4ac0d'
+					}
 				}
 			},
 			fontFamily: {
@@ -150,10 +154,14 @@ export default {
 				'neon-glow': '0 0 5px 0 rgba(155, 135, 245, 0.5), 0 0 15px 0 rgba(155, 135, 245, 0.3)',
 				'neon-glow-strong': '0 0 10px 2px rgba(155, 135, 245, 0.7), 0 0 25px 5px rgba(155, 135, 245, 0.5)',
 				'inner-glow': 'inset 0 0 15px 0 rgba(155, 135, 245, 0.3)',
+				'gold-glow': '0 0 10px 2px rgba(241, 196, 15, 0.5), 0 0 20px 5px rgba(241, 196, 15, 0.3)',
+				'gold-glow-strong': '0 0 15px 3px rgba(241, 196, 15, 0.7), 0 0 25px 6px rgba(241, 196, 15, 0.5)'
 			},
 			textShadow: {
 				'neon': '0 0 5px rgba(155, 135, 245, 0.7), 0 0 15px rgba(155, 135, 245, 0.5)',
-				'neon-strong': '0 0 10px rgba(155, 135, 245, 0.9), 0 0 20px rgba(155, 135, 245, 0.7), 0 0 30px rgba(155, 135, 245, 0.5)'
+				'neon-strong': '0 0 10px rgba(155, 135, 245, 0.9), 0 0 20px rgba(155, 135, 245, 0.7), 0 0 30px rgba(155, 135, 245, 0.5)',
+				'gold-neon': '0 0 5px rgba(241, 196, 15, 0.7), 0 0 15px rgba(241, 196, 15, 0.5)',
+				'gold-neon-strong': '0 0 10px rgba(241, 196, 15, 0.9), 0 0 20px rgba(241, 196, 15, 0.7)'
 			}
 		}
 	},
