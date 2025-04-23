@@ -1,6 +1,6 @@
 
 import React, { useState, useCallback } from 'react';
-import { Drum, Piano, Volume2, SkipBack, SkipForward } from 'lucide-react';
+import { Drum, Piano, Volume2, SkipBack, SkipForward, Wind, CloudRain, CloudMoon } from 'lucide-react';
 import { Slider } from "@/components/ui/slider";
 
 interface Sample {
@@ -18,10 +18,14 @@ interface LofiMixerProps {
 
 const LofiMixer: React.FC<LofiMixerProps> = ({ isActive, onSampleToggle }) => {
   const [bpm, setBpm] = useState(75);
+  const [mood, setMood] = useState<'focus' | 'relax' | 'sleep'>('relax');
   const [samples, setSamples] = useState<Sample[]>([
     { id: 'drums1', name: 'Boom Bap', icon: Drum, active: false, volume: 80 },
     { id: 'piano1', name: 'Jazz Chords', icon: Piano, active: false, volume: 80 },
     { id: 'vinyl', name: 'Vinyl Crackle', icon: Volume2, active: false, volume: 60 },
+    { id: 'rain', name: 'Rain', icon: CloudRain, active: false, volume: 70 },
+    { id: 'wind', name: 'Wind', icon: Wind, active: false, volume: 50 },
+    { id: 'night', name: 'Night Ambience', icon: CloudMoon, active: false, volume: 65 },
   ]);
   
   const toggleSample = useCallback((id: string) => {
@@ -51,10 +55,89 @@ const LofiMixer: React.FC<LofiMixerProps> = ({ isActive, onSampleToggle }) => {
   const handleBpmChange = useCallback((value: number) => {
     setBpm(value);
   }, []);
+
+  const handleMoodChange = (newMood: 'focus' | 'relax' | 'sleep') => {
+    setMood(newMood);
+    
+    // Adjust samples based on mood
+    let drumVol = 80;
+    let pianoVol = 80;
+    let vinylVol = 60;
+    let rainVol = 70;
+    let windVol = 50;
+    let nightVol = 65;
+    
+    if (newMood === 'focus') {
+      drumVol = 60;
+      pianoVol = 90;
+      vinylVol = 40;
+      rainVol = 30;
+      windVol = 20;
+      nightVol = 40;
+    } else if (newMood === 'sleep') {
+      drumVol = 30;
+      pianoVol = 60;
+      vinylVol = 50;
+      rainVol = 90;
+      windVol = 80;
+      nightVol = 90;
+    }
+    
+    setSamples(prev => prev.map(sample => {
+      switch(sample.id) {
+        case 'drums1': return { ...sample, volume: drumVol };
+        case 'piano1': return { ...sample, volume: pianoVol };
+        case 'vinyl': return { ...sample, volume: vinylVol };
+        case 'rain': return { ...sample, volume: rainVol };
+        case 'wind': return { ...sample, volume: windVol };
+        case 'night': return { ...sample, volume: nightVol };
+        default: return sample;
+      }
+    }));
+  };
   
   return (
     <div className="cosmic-panel">
-      <h3 className="text-xl font-heading mb-4 text-shadow-neon">Lo-Fi Hip-Hop Mixer</h3>
+      <h3 className="text-xl font-heading mb-4 text-shadow-neon">Ambient Sound Mixer</h3>
+
+      {/* Mood Selector */}
+      <div className="flex justify-between mb-6">
+        <button
+          onClick={() => isActive && handleMoodChange('focus')}
+          className={`px-4 py-2 rounded-lg transition-all ${
+            mood === 'focus'
+              ? 'bg-neuro-gold text-cosmic-dark font-medium'
+              : 'bg-cosmic-charcoal hover:bg-neuro-gold/20'
+          } ${!isActive ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={!isActive}
+        >
+          Focus
+        </button>
+        
+        <button
+          onClick={() => isActive && handleMoodChange('relax')}
+          className={`px-4 py-2 rounded-lg transition-all ${
+            mood === 'relax'
+              ? 'bg-neuro-gold text-cosmic-dark font-medium'
+              : 'bg-cosmic-charcoal hover:bg-neuro-gold/20'
+          } ${!isActive ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={!isActive}
+        >
+          Relax
+        </button>
+        
+        <button
+          onClick={() => isActive && handleMoodChange('sleep')}
+          className={`px-4 py-2 rounded-lg transition-all ${
+            mood === 'sleep'
+              ? 'bg-neuro-gold text-cosmic-dark font-medium'
+              : 'bg-cosmic-charcoal hover:bg-neuro-gold/20'
+          } ${!isActive ? 'opacity-50 cursor-not-allowed' : ''}`}
+          disabled={!isActive}
+        >
+          Sleep
+        </button>
+      </div>
       
       {/* BPM Control */}
       <div className="mb-6">
@@ -124,10 +207,10 @@ const LofiMixer: React.FC<LofiMixerProps> = ({ isActive, onSampleToggle }) => {
         ))}
       </div>
       
-      {/* Beat Sequencer */}
+      {/* Beat Sequencer / Visualizer */}
       <div className="h-16 bg-cosmic-charcoal rounded-lg overflow-hidden relative">
         <div className="absolute inset-0 flex items-center justify-center text-neuro-gold-light opacity-50">
-          {!isActive ? 'Activate module to use mixer' : 'Coming soon: Beat sequencer'}
+          {!isActive ? 'Activate module to use mixer' : 'Live audio visualization'}
         </div>
         {isActive && samples.some(s => s.active) && (
           <div className="absolute left-0 top-0 h-full w-1 bg-neuro-gold animate-[pulse_2s_ease-in-out_infinite]"></div>
